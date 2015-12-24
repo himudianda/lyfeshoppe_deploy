@@ -1,0 +1,205 @@
+
+On DigitalOcean
+===================================
+Create a new droplet:
+--------------------
+ - A droplet of 20 to 40/month is required
+ - A core-OS beta version droplet
+ - add ur development workstations ssh keys when creating the droplet
+ - give ur droplet a good hostname so u can identify it among many other droplets
+
+Example droplet created:
+-----------------------
+    hostname: lyfeshoppe
+    IP ADDRESS: 159.203.135.36
+
+You can now ssh to this droplet using:
+-------------------------------------
+ssh core@159.203.135.36
+
+
+
+On local workstation:
+===================================
+Go to the directory where you host all your code and
+
+Clone the repositories
+-----------------------
+mkdir lyfeshoppe
+cd lyfeshoppe
+git clone git@github.com:himudianda/lyfeshoppe.git website
+git clone git@github.com:himudianda/lyfeshoppe_deploy.git deploy
+
+Make necessary changes in deploy/
+---------------------------------
+1. deploy/nginx/docker-entrypoint file must have correct IP "159.203.135.36", hostname "lyfeshoppe" and domain "lyfeshoppe.com"
+STAGING_IP="159.203.135.36"
+STAGING_HOSTNAME="lyfeshoppe"
+DOMAIN_NAME="lyfeshoppe.com"
+
+2. deploy/nginx/configs/default.conf must have correct IP "159.203.135.36"
+
+3. deploy/production/instance/settings.py must have correct twitter keys, stripe keys, email username & password
+
+4. Generate your SSL certificates (if not using a paid trusted SSL certificate) with following commands
+cd deploy/production/certs
+openssl dhparam -out dhparam.pem 2048
+openssl req -newkey rsa:2048 -nodes -sha256 -keyout lyfeshoppe.key -x509 -days 3650 -out lyfeshoppe.crt -subj "/C=US/ST=NewYork/L=NewYork/O=IT/CN=lyfeshoppe.com"
+
+5. Remove old certificates from deploy/nginx/certs & copy the new SSL certificates to deploy/nginx/certs (bcoz deploy/nginx/Dockerfile picks certs from there):
+rm deploy/nginx/certs/catwatch.*
+cp deploy/production/certs/lyfeshoppe.* deploy/ngnix/certs/
+cp deploy/production/certs/dhparam.pem deploy/ngnix/certs/
+
+6. Generate htpasswd
+cd deploy/production/htpasswd
+htpasswd -bc .htpasswd USER PASS
+
+7. deploy/install/scp-to-ip modified
+    - Add the correct IP address for your production system "159.203.135.36"
+
+8. Copy all the required deploy files to production by running scp-to-ip script
+    From the deploy/ directory run:
+./install/scp-to-ip
+
+9. Create git repo for deploy/nginx
+    Visit deploy/nginx directory & create a git repo by executing following commands:
+
+git init && git add -A && git commit -m "Initial commit"
+git remote add production ssh://core@159.203.135.36:/var/git/nginx.git
+
+10. Create git repo for website OR add remote URL if repo already exists
+
+    If repo doesnt already exist:
+    -----------------------------
+    Visit website/ directory & create a git repo by executing following commands:
+git init && git add -A && git commit -m "Initial commit"
+git remote add production ssh://core@159.203.135.36:/var/git/website.git
+
+    If repo already exist:
+    -----------------------------
+    just add the remote location for production pushes
+git remote add production ssh://core@159.203.135.36:/var/git/website.git
+
+
+
+On Production system (ssh core@159.203.135.36)
+================================================
+Run the following command in the shell
+
+# Prevent CoreOS from updating itself and rebooting
+sudo systemctl disable update-engine
+sudo systemctl stop update-engine
+
+sudo systemctl disable update-engine-stub
+sudo systemctl stop update-engine-stub
+
+# Set up the remote git repos
+sudo mkdir -p /var/git/nginx.git /var/git/nginx
+sudo mkdir -p /var/git/website.git /var/git/website
+
+sudo git --git-dir=/var/git/nginx.git --bare init
+sudo chown -R core:core /var/git/nginx.git
+sudo chown -R core:core /var/git/nginx
+
+sudo git --git-dir=/var/git/website.git --bare init
+sudo chown -R core:core /var/git/website.git
+sudo chown -R core:core /var/git/website
+
+# Move the SSL certificates to the correct location
+sudo mv /tmp/lyfeshoppe.crt /etc/ssl/certs
+sudo mv /tmp/lyfeshoppe.key /etc/ssl/private
+sudo mv /tmp/dhparam.pem /etc/ssl/private
+
+# Move the htpasswd file to the correct location
+sudo mv /tmp/.htpasswd /etc/nginx
+
+
+# Move the iptables rules
+sudo mv /tmp/rules-save /var/lib/iptables
+sudo chown root:root /var/lib/iptables/rules-save
+
+# Move the unit files to the correct location
+sudo mv /tmp/postgres.service /etc/systemd/system
+sudo mv /tmp/redis.service /etc/systemd/system
+sudo mv /tmp/faye.service /etc/systemd/system
+sudo mv /tmp/celery.service /etc/systemd/system
+sudo mv /tmp/flower.service /etc/systemd/system
+sudo mv /tmp/website.service /etc/systemd/system
+sudo mv /tmp/stream.service /etc/systemd/system
+sudo mv /tmp/nginx.service /etc/systemd/system
+
+# Move the git hooks to the correct location
+sudo mv /tmp/nginx /var/git/nginx.git/hooks/post-receive
+sudo mv /tmp/website /var/git/website.git/hooks/post-receive
+chmod +x /var/git/nginx.git/hooks/post-receive
+chmod +x /var/git/website.git/hooks/post-receive
+
+# Move the firewall rules to the correct location
+sudo mv /tmp/rules-save /var/lib/iptables
+sudo chown root:root /var/lib/iptables/rules-save
+
+# Enable and start iptables
+sudo systemctl enable iptables-restore
+sudo systemctl start iptables-restore
+
+# Restart Docker because we made an iptables change
+sudo systemctl restart docker
+
+# Move the instance files to the correct location
+sudo mkdir -p /home/core/instance
+sudo mv /tmp/__init__.py /home/core/instance
+sudo mv /tmp/settings.py /home/core/instance
+
+# Move the faye environment file to the correct location
+sudo mv /tmp/faye.env /home/core
+
+# Set proper ownership for all of the core user's contents
+sudo chown -R core:core /home/core/instance
+
+# Pull in the Docker images we're using that aren't ours
+/usr/bin/docker pull redis:2.8.21
+sudo systemctl enable redis.service
+sudo systemctl start redis.service
+
+/usr/bin/docker pull postgres:9.4.3
+sudo systemctl enable postgres.service
+sudo systemctl start postgres.service
+
+/usr/bin/docker pull nickjj/faye
+sudo systemctl enable faye.service
+sudo systemctl start faye.service
+
+
+
+
+On local workstation:
+===================================
+Push your work under deploy/nginx & website/ directory to production using the following 2 commands
+
+cd deploy/nginx
+git push production master
+
+AND 
+
+cd website/
+git push production master
+
+
+On Production system (ssh core@159.203.135.36)
+================================================
+
+# Enable and start all of the services
+sudo systemctl enable celery.service flower.service website.service stream.service nginx.service
+sudo systemctl start celery.service flower.service website.service stream.service nginx.service
+
+
+DB_DATABASE="lyfeshoppe"
+DB_USERNAME="lyfeshoppe"
+DB_PASSWORD="bestpassword"
+
+/usr/bin/docker exec -it postgres createdb -U postgres "${DB_DATABASE}"
+/usr/bin/docker exec -it postgres psql -U postgres -c "CREATE USER ${DB_USERNAME} WITH PASSWORD '${DB_PASSWORD}'; GRANT ALL PRIVILEGES ON DATABASE ${DB_DATABASE} to ${DB_USERNAME};"
+/usr/bin/docker exec -it website run db init
+/usr/bin/docker exec -it website run db seed
+

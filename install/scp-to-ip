@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+
+# What's the IP address of your production server?
+IP="core-01"
+
+
+# Copy over the real certificates
+scp production/certs/lyfeshoppe.crt core@${IP}:/tmp/lyfeshoppe.crt
+scp production/certs/lyfeshoppe.key core@${IP}:/tmp/lyfeshoppe.key
+scp production/certs/dhparam.pem core@${IP}:/tmp/dhparam.pem
+
+# Copy over the htpasswd file
+scp production/htpasswd/.htpasswd core@${IP}:/tmp/.htpasswd
+
+# Copy over the unit files
+scp units/postgres.service core@${IP}:/tmp/postgres.service
+scp units/redis.service core@${IP}:/tmp/redis.service
+scp units/faye.service core@${IP}:/tmp/faye.service
+scp units/celery.service core@${IP}:/tmp/celery.service
+scp units/flower.service core@${IP}:/tmp/flower.service
+scp units/website.service core@${IP}:/tmp/website.service
+scp units/stream.service core@${IP}:/tmp/stream.service
+scp units/nginx.service core@${IP}:/tmp/nginx.service
+
+# Copy over the git hooks
+scp git/post-receive/nginx core@${IP}:/tmp/nginx
+scp git/post-receive/website core@${IP}:/tmp/website
+
+# Copy over the instance files
+scp production/instance/__init__.py core@${IP}:/tmp/__init__.py
+scp production/instance/settings.py core@${IP}:/tmp/settings.py
+
+# Copy over the faye environment file
+scp production/faye.env core@${IP}:/tmp/faye.env
+
+# Copy over the firewall rules
+scp production/rules-save core@${IP}:/tmp/rules-save

@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# ------------------------------------------------------------------------------
+# What is this file?
+# ------------------------------------------------------------------------------
+# It is a solution that allows you to backup your PostgeSQL database.
+#
+#
+# ------------------------------------------------------------------------------
+# Installation
+# ------------------------------------------------------------------------------
+# Determine where you want this script to be ran from. Is it going to be on
+# your workstation, a dedicated server or even your production server?
+#
+# - Copy this script to /usr/local/bin so it's on the system's path
+# - Adjust line 46 to input your production server's IP address
+# - Ensure whatever server you're running it on has `postgresql-client-9.4`
+#    - [Debian/Ubuntu] -> $ sudo apt-get install postgresql-client-9.4
+#    - [Mac]           -> You should have it on your workstation
+#
+#
+# ------------------------------------------------------------------------------
+# Usage
+# ------------------------------------------------------------------------------
+# [Arguments]
+# Accepts 1 optional argument which is the path of the SQL output file,
+# it defaults to ~/lyfeshoppe-pg-sql.gz
+#
+# [Input]
+# You supply your real production database password with the PGPASSWORD env var.
+#
+# [Output]
+# It will produce a gzipped backup file containing the lyfeshoppe database
+#
+#
+# ------------------------------------------------------------------------------
+# Example
+# ------------------------------------------------------------------------------
+# [Running it as a 1 off command manually]
+# PGPASSWORD=foo ./lyfeshoppe-production-db-backup
+#
+# [Using cron to run it every day at 3:30am]
+# sudo crontab -e
+# 30 3 * * * PGPASSWORD=foo /usr/local/bin/lyfeshoppe-production-db-backup
+OUTPUT_FILE=${1:-~/lyfeshoppe-pg-sql.gz}
+SERVER_IP="YOUR_SERVER_IP_GOES_HERE"
+
+pg_dump -h ${SERVER_IP} -p 5432 -U lyfeshoppe lyfeshoppe | gzip > "${OUTPUT_FILE}"

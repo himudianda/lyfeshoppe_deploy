@@ -1,0 +1,37 @@
+
+Test for reachability:
+---------------------------
+wget https://lyfeshoppe.com --no-check-certificate
+
+
+Telnet a port:
+---------------
+telnet IP PORT
+
+
+Nginx logs:
+----------
+journalctl -u nginx --reverse
+(reverse listing of all logs, so the newest is shown at the top)
+
+or...
+
+journalctl -u nginx -f
+(to tail the logs in real time)
+
+
+Flask/Web app logs:
+-------------------
+
+journalctl -u website --reverse
+(reverse listing of all logs, so the newest is shown at the top)
+
+or...
+
+journalctl -u website -f
+(to tail the logs in real time)
+
+
+Logs in Email:
+-------------
+You should also configure your instance/settings.py file with your e-mail credentials, because it will e-mail you the full stack trace to help debug production issues.
