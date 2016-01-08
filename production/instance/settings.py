@@ -17,8 +17,8 @@ CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 CELERY_REDIS_MAX_CONNECTIONS = 25
 
 # Mail settings.
-MAIL_USERNAME = 'invincible999@gmail.com'
-MAIL_PASSWORD = 'qaWSer12'
+MAIL_USERNAME = 'lyfeshoppe@gmail.com'
+MAIL_PASSWORD = 'p7u-wwC-9Hx-JVt'
 
 # Stripe settings.
 STRIPE_SECRET_KEY = 'sk_test_qiyNl7uKGcZur3kBFbZ8CHYm'

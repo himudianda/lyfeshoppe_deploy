@@ -11,11 +11,11 @@ Create a new droplet:
 Example droplet created:
 -----------------------
     hostname: lyfeshoppe
-    IP ADDRESS: 159.203.229.60
+    IP ADDRESS: 104.236.182.11
 
 You can now ssh to this droplet using:
 -------------------------------------
-ssh core@159.203.229.60
+ssh core@104.236.182.11
 
 
 
@@ -32,12 +32,12 @@ git clone git@github.com:himudianda/lyfeshoppe_deploy.git deploy
 
 Make necessary changes in deploy/
 ---------------------------------
-1. deploy/nginx/docker-entrypoint file must have correct IP "159.203.229.60", hostname "lyfeshoppe" and domain "lyfeshoppe.com"
-STAGING_IP="159.203.135.36"
+1. deploy/nginx/docker-entrypoint file must have correct IP "104.236.182.11", hostname "lyfeshoppe" and domain "lyfeshoppe.com"
+STAGING_IP="104.236.182.11"
 STAGING_HOSTNAME="lyfeshoppe"
 DOMAIN_NAME="lyfeshoppe.com"
 
-2. deploy/nginx/configs/default.conf must have correct IP "159.203.229.60"
+2. deploy/nginx/configs/default.conf must have correct IP "104.236.182.11"
 
 3. deploy/production/instance/settings.py must have correct twitter keys, stripe keys, email username & password
 
@@ -56,7 +56,7 @@ cd deploy/production/htpasswd
 htpasswd -bc .htpasswd USER PASS
 
 7. deploy/install/scp-to-ip modified
-    - Add the correct IP address for your production system "159.203.229.60"
+    - Add the correct IP address for your production system "104.236.182.11"
 
 8. Copy all the required deploy files to production by running scp-to-ip script
     From the deploy/ directory run:
@@ -66,7 +66,7 @@ htpasswd -bc .htpasswd USER PASS
     Visit deploy/nginx directory & create a git repo by executing following commands:
 
 git init && git add -A && git commit -m "Initial commit"
-git remote add production ssh://core@159.203.229.60:/var/git/nginx.git
+git remote add lyfeshoppe_prod ssh://core@104.236.182.11:/var/git/nginx.git
 
 10. Create git repo for website OR add remote URL if repo already exists
 
@@ -74,16 +74,16 @@ git remote add production ssh://core@159.203.229.60:/var/git/nginx.git
     -----------------------------
     Visit website/ directory & create a git repo by executing following commands:
 git init && git add -A && git commit -m "Initial commit"
-git remote add production ssh://core@159.203.229.60:/var/git/website.git
+git remote add lyfeshoppe_prod ssh://core@104.236.182.11:/var/git/website.git
 
     If repo already exist:
     -----------------------------
     just add the remote location for production pushes
-git remote add production ssh://core@159.203.229.60:/var/git/website.git
+git remote add lyfeshoppe_prod ssh://core@104.236.182.11:/var/git/website.git
 
 
 
-On Production system (ssh core@159.203.229.60)
+On Production system (ssh core@104.236.182.11)
 ================================================
 Run the following command in the shell
 
@@ -186,7 +186,7 @@ cd website/
 git push production master
 
 
-On Production system (ssh core@159.203.229.60)
+On Production system (ssh core@104.236.182.11)
 ================================================
 
 # Enable and start all of the services
