@@ -3,7 +3,7 @@ SERVER_NAME = 'localhost:8081'
 DEBUG = False
 LOG_LEVEL = 'info'
 
-db_uri = 'postgresql://lyfeshoppe:bestpassword@postgres:5432/lyfeshoppe'
+db_uri = 'postgresql://lyfeshoppe:dbpassword@postgres:5432/lyfeshoppe'
 SQLALCHEMY_DATABASE_URI = db_uri
 
 CACHE_REDIS_URL = 'redis://redis:6379/0'
