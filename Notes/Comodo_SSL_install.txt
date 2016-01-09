@@ -1,0 +1,11 @@
+Completed installed Comodo SSL. 
+Followed steps from namecheap's SSL certificate install & activation documents.
+
+Link1: https://www.namecheap.com/support/knowledgebase/article.aspx/794/67/how-do-i-activate-an-ssl-certificate
+Link2: How to generate a CSR certificate:
+https://support.comodo.com/index.php?/Default/Knowledgebase/Article/View/1/19/csr-generation-using-openssl-apache-wmod_ssl-nginx-os-x
+Link3: Installing Comodo PositiveSSL certificate on ur nginx server
+https://support.comodo.com/index.php?/Default/Knowledgebase/Article/View/789/37/
+
+Note: Used the admin@lyfeshoppe.com email account - SSL authority would sign the certificates only if admin@<your-domain> email is provided.
+The SSL certificate was then emailed to lyfeshoppe@gmail.com
