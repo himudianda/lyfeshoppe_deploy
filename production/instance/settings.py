@@ -24,14 +24,12 @@ MAIL_PASSWORD = 'p7u-wwC-9Hx-JVt'
 STRIPE_SECRET_KEY = 'sk_test_qiyNl7uKGcZur3kBFbZ8CHYm'
 STRIPE_PUBLISHABLE_KEY = 'pk_test_dwxVrnUVeaWrsUJEKYH3euhB'
 
-# Twitter settings.
-TWITTER_CONSUMER_KEY = 'O3ULXdFEzQO7sn9gqLxKOcl3w'
-TWITTER_CONSUMER_SECRET = 'CNXpCbxyyWU3iy9JlO0IqpZuTAZyQnUVFczn35lV1HCAxsGyKr'
-TWITTER_ACCESS_TOKEN = '3972337814-uZ17beJg9IM4SBnunN7GGXCZofpmZe9LVQqqX0E'
-TWITTER_ACCESS_SECRET = 'Oiw3ghLGQz6PNEJi8VsCwlpSXZHB1uO3WbTpkSO9voEFe'
-
-BROADCAST_PUBLIC_URL = 'https://lyfeshoppe.com/faye/stream'
-BROADCAST_INTERNAL_URL = 'http://faye:4242/stream'
-BROADCAST_PUSH_TOKEN = 'thistokenneedstomatchtheoneinyourinstancesettingspy'
-
 ENDPOINT_FLOWER = 'https://lyfeshoppe.com/flower'
+
+# Facebook settings
+OAUTH_CREDENTIALS = {
+    'facebook': {
+        'id': '1737905239773197',
+        'secret': '9aa27bf85b54ba749292cee46a013a2f'
+    }
+}
