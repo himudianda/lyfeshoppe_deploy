@@ -69,11 +69,9 @@ sudo chown root:root /var/lib/iptables/rules-save
 # Move the unit files to the correct location
 sudo mv /tmp/postgres.service /etc/systemd/system
 sudo mv /tmp/redis.service /etc/systemd/system
-sudo mv /tmp/faye.service /etc/systemd/system
 sudo mv /tmp/celery.service /etc/systemd/system
 sudo mv /tmp/flower.service /etc/systemd/system
 sudo mv /tmp/website.service /etc/systemd/system
-sudo mv /tmp/stream.service /etc/systemd/system
 sudo mv /tmp/nginx.service /etc/systemd/system
 
 # Move the git hooks to the correct location
@@ -98,9 +96,6 @@ sudo mkdir -p /home/core/instance
 sudo mv /tmp/__init__.py /home/core/instance
 sudo mv /tmp/settings.py /home/core/instance
 
-# Move the faye environment file to the correct location
-sudo mv /tmp/faye.env /home/core
-
 # Set proper ownership for all of the core user's contents
 sudo chown -R core:core /home/core/instance
 
@@ -113,18 +108,14 @@ sudo systemctl start redis.service
 sudo systemctl enable postgres.service
 sudo systemctl start postgres.service
 
-/usr/bin/docker pull nickjj/faye
-sudo systemctl enable faye.service
-sudo systemctl start faye.service
-
 # ------------------------------------------------------------------------------
 # BEFORE PROCEEDING PAST THIS POINT MAKE SURE YOU GIT PUSH BOTH NGINX AND THE
 # WEBSITE REPOS FROM YOUR WORKSTATION
 # ------------------------------------------------------------------------------
 
 # Enable and start all of the services
-sudo systemctl enable celery.service flower.service website.service stream.service nginx.service
-sudo systemctl start celery.service flower.service website.service stream.service nginx.service
+sudo systemctl enable celery.service flower.service website.service nginx.service
+sudo systemctl start celery.service flower.service website.service nginx.service
 
 # Initialize the database
 /usr/bin/docker exec -it postgres createdb -U postgres "${DB_DATABASE}"

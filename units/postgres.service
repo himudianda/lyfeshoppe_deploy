@@ -14,4 +14,4 @@ ExecStart=/usr/bin/docker run --rm --name %p \
 ExecStop=/usr/bin/docker stop %p
 
 [Install]
-WantedBy=multi-user.target celery.service stream.service website.service
+WantedBy=multi-user.target celery.service website.service

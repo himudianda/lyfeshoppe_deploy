@@ -1,7 +1,7 @@
 [Unit]
 Description=Run %p
-Requires=docker.service postgres.service redis.service faye.service
-After=docker.service postgres.service redis.service faye.service
+Requires=docker.service postgres.service redis.service
+After=docker.service postgres.service redis.service
 
 [Service]
 Restart=always
@@ -9,7 +9,7 @@ User=core
 ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm -f %p
 ExecStart=/usr/bin/docker run -t --rm --name %p \
-  --link redis:redis --link postgres:postgres --link faye:faye \
+  --link redis:redis --link postgres:postgres \
   -v /home/core/instance:/lyfeshoppe/instance \
   -p 8000:8000 %p
 ExecStartPost=-/usr/bin/docker stop nginx

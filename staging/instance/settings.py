@@ -23,8 +23,4 @@ TWITTER_CONSUMER_SECRET = 'XXX'
 TWITTER_ACCESS_TOKEN = 'XXX'
 TWITTER_ACCESS_SECRET = 'XXX'
 
-BROADCAST_PUBLIC_URL = 'https://localhost:8081/faye/stream'
-BROADCAST_INTERNAL_URL = 'http://faye:4242/stream'
-BROADCAST_PUSH_TOKEN = '123notsecure'
-
 ENDPOINT_FLOWER = 'https://localhost:8081/flower'

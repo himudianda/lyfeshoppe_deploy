@@ -23,9 +23,6 @@ docker tag -f "${DOCKER_ID}" "${FULL_LATEST_TAG}"
 echo "Restarting the Celery worker"
 docker stop "celery"
 
-echo "Restarting the Stream service"
-docker stop "stream"
-
 echo "Restarting ${REPO_NAME}"
 docker stop "${REPO_NAME}"
 

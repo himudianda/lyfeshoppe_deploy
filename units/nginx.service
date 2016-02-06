@@ -1,7 +1,7 @@
 [Unit]
 Description=Run %p
-Requires=docker.service website.service faye.service
-After=docker.service website.service faye.service
+Requires=docker.service website.service
+After=docker.service website.service
 
 [Service]
 Restart=always
@@ -9,7 +9,7 @@ ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm -f %p
 ExecStart=/usr/bin/docker run -t --rm --name %p \
   -p 80:80 -p 443:443 \
-  --link website:website --link faye:faye \
+  --link website:website --link \
   --link flower:flower \
   --volumes-from website \
   -v /etc/ssl/certs:/etc/ssl/certs \
