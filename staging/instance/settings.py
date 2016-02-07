@@ -14,5 +14,3 @@ CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 
 MAIL_USERNAME = 'you@example.com'
 MAIL_PASSWORD = 'thebestpasswordyouevermade'
-
-ENDPOINT_FLOWER = 'https://localhost:8081/flower'

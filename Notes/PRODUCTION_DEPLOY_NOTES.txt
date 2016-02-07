@@ -123,7 +123,6 @@ sudo chown root:root /var/lib/iptables/rules-save
 sudo mv /tmp/postgres.service /etc/systemd/system
 sudo mv /tmp/redis.service /etc/systemd/system
 sudo mv /tmp/celery.service /etc/systemd/system
-sudo mv /tmp/flower.service /etc/systemd/system
 sudo mv /tmp/website.service /etc/systemd/system
 sudo mv /tmp/nginx.service /etc/systemd/system
 
@@ -180,8 +179,8 @@ On Production system (ssh core@162.243.110.45)
 ================================================
 
 # Enable and start all of the services
-sudo systemctl enable celery.service flower.service website.service nginx.service
-sudo systemctl start celery.service flower.service website.service nginx.service
+sudo systemctl enable celery.service website.service nginx.service
+sudo systemctl start celery.service website.service nginx.service
 
 
 DB_DATABASE="lyfeshoppe"
