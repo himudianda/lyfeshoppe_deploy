@@ -2,7 +2,7 @@
 
 
 # What's the IP address of your production server?
-IP="162.243.154.46"
+IP="162.243.110.45"
 
 
 # Copy over the real certificates
