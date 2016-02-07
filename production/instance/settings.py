@@ -20,10 +20,6 @@ CELERY_REDIS_MAX_CONNECTIONS = 25
 MAIL_USERNAME = 'lyfeshoppe@gmail.com'
 MAIL_PASSWORD = 'p7u-wwC-9Hx-JVt'
 
-# Stripe settings.
-STRIPE_SECRET_KEY = 'sk_test_qiyNl7uKGcZur3kBFbZ8CHYm'
-STRIPE_PUBLISHABLE_KEY = 'pk_test_dwxVrnUVeaWrsUJEKYH3euhB'
-
 ENDPOINT_FLOWER = 'https://lyfeshoppe.com/flower'
 
 # Facebook settings

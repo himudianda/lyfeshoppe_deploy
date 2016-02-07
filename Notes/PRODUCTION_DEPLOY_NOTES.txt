@@ -168,12 +168,12 @@ On local workstation:
 Push your work under deploy/nginx & website/ directory to production using the following 2 commands
 
 cd deploy/nginx
-git push production master
+git push lyfeshoppe_prod master
 
 AND 
 
 cd website/
-git push production master
+git push lyfeshoppe_prod master
 
 
 On Production system (ssh core@162.243.154.46)
