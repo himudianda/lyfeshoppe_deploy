@@ -10,7 +10,7 @@ ExecStartPre=-/usr/bin/docker rm -f %p
 ExecStart=/usr/bin/docker run -t --rm --name %p \
   -p 80:80 -p 443:443 \
   --link website:website --link \
-  --link flower:flower \
+  --link placr:flower \
   --volumes-from website \
   -v /etc/ssl/certs:/etc/ssl/certs \
   -v /etc/ssl/private:/etc/ssl/private %p
