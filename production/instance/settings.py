@@ -6,7 +6,7 @@ SECRET_KEY = 'nevergivethisoutandmakesureitiscomplexdonotusewhatyouseehereseriou
 DEBUG = False
 LOG_LEVEL = 'INFO'
 
-db_uri = 'postgresql://lyfeshoppe:pass@postgres:5432/lyfeshoppe'
+db_uri = 'postgresql://lyfeshoppe:bestpassword@postgres:5432/lyfeshoppe'
 SQLALCHEMY_DATABASE_URI = db_uri
 SQLALCHEMY_POOL_SIZE = 25
 
